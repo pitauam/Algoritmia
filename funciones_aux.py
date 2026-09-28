@@ -180,7 +180,7 @@ def preparar_find_duplicates(n):
 
 Nlist = [10, 20, 50, 100, 200, 500]
 
-print(time_measure(find_duplicates, preparar_find_duplicates,Nlist, 10000, 1000))
+#print(time_measure(find_duplicates, preparar_find_duplicates,Nlist, 10000, 1000))
 
 
 resultados = time_measure(
@@ -195,4 +195,18 @@ for n, (media, varianza) in zip(Nlist, resultados):
     print(f"n = {n}")
     print(f"  Tiempo medio: {media:.10f} segundos")
     print(f"  Varianza:     {varianza:.10e}")
-    print()
+    print() 
+
+
+
+# HAS SUM PAIR 28/9/26
+def has_sum_pair(lst, target) -> bool:
+    dict = {}
+    for element in lst:
+        resta = target - element
+        dict[element] = True
+        if dict[resta] == True:
+            return True
+
+    return False
+    
