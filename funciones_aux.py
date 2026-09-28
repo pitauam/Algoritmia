@@ -155,3 +155,49 @@ def plot_single_curve(
 
     # Mostrar la figura en pantalla.
     plt.show()
+
+def find_duplicates(lst) -> list:
+    salida = []
+
+    for i in range(len(lst)):
+        if lst[i] in salida:
+            continue
+
+        for j in range(i+1, len(lst)):
+            if lst[j] == lst[i]:
+                salida.append(lst[j])
+                break
+
+    return salida
+
+def preparar(n):
+    return list(range(n // 2)) + list(range(n // 2))
+
+print(time_measure(find_duplicates, preparar, [1, 2, 3, 4, 5], 10000, 1000))
+Nlist = [10, 20, 50, 100, 200, 500]
+
+resultados = time_measure(
+    find_duplicates,
+    preparar,
+    Nlist,
+    Nrep=100,
+    Nstat=10
+)
+
+
+for n, (media, varianza) in zip(Nlist, resultados):
+    print(f"n = {n}")
+    print(f"  Tiempo medio: {media:.10f} segundos")
+    print(f"  Varianza:     {varianza:.10e}")
+    print()
+
+
+"""
+1. Orden de preservación: Un elemento entra en la lista final en el instante exacto en que se detecta su primera repetición (es decir, la segunda vez que aparece).
+2. Sin duplicados en la salida: Cada elemento repetido debe aparecer una sola vez en la lista resultante, independientemente de si aparece 2, 3 o más veces en la lista original.
+ Ejemplo A (Repeticiones intercaladas): Dada la lista [4, 1, 2, 1, 3, 4, 1], los elementos repetidos son 1 y 4. El 1 se repite por primera vez en la posición 3 y el 4 en la posición 5. Por lo tanto, la salida es [1, 4].
+ Ejemplo B (Sin duplicados o con múltiples repeticiones consecutivas): Dada la lista [10, 20, 10, 10, 30], la salida es [10]. Si la lista no contiene ningún elemento repetido, como [1, 2, 3], la función devuelve
+la lista vacía [].
+"""
+
+
