@@ -5,6 +5,7 @@
 from collections.abc import Callable, Iterable, Sequence
 from typing import Any
 import time  # Proporciona temporizadores de alta resolución.
+from random import randint
 
 import matplotlib.pyplot as plt  # Biblioteca utilizada para crear gráficas.
 
@@ -177,8 +178,8 @@ def find_duplicates(lst) -> list:
 
 def preparar_find_duplicates(n):
     return list(range(n // 2)) + list(range(n // 2))
-
-Nlist = [10, 20, 50, 100, 200, 500]
+"""
+Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900]
 
 #print(time_measure(find_duplicates, preparar_find_duplicates,Nlist, 10000, 1000))
 
@@ -198,15 +199,36 @@ for n, (media, varianza) in zip(Nlist, resultados):
     print() 
 
 
+#generar la grafica
+
+tiempos_medios = []
+
+for media, varianza in resultados:
+    tiempos_medios.append(media)
+
+plot_single_curve(
+    x=Nlist,
+    y=tiempos_medios,
+    title="Tiempo de ejecución de find_duplicates",
+    xlabel="Tamaño de entrada (n)",
+    ylabel="Tiempo medio (segundos)",
+    label="find_duplicates",
+    style="o-",
+    color="blue"
+)
+"""
 
 # HAS SUM PAIR 28/9/26
-def has_sum_pair(lst, target) -> bool:
+def has_sum_pair(par) -> bool:  
+    lst, target = par
     dict = {}
     for element in lst:
         resta = target - element
-        dict[element] = True
-        if dict[resta] == True:
+        if resta in dict:
             return True
+        dict[element] = True
 
     return False
-    
+
+def preparar_has_sum_pair(n):
+    return [randint(0, n) for i in range(n)]
