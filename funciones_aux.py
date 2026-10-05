@@ -374,6 +374,6 @@ def union(rep_1: int, rep_2: int, p_cd: np.ndarray)-> int:
         p_cd[rep_2] = rep_1
         p_cd[rep_1]-= 1
         return rep_1
-
+""""
 def cd_2_dict(p_cd: np.ndarray)-> Dict:
-    
+    """
