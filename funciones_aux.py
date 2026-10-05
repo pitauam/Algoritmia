@@ -329,6 +329,8 @@ def rle_encode_optimized(lst):
             # crea una nueva tupla
             tlist.append((lst[i+1], 1))
 
+        return tlist
+
 # II.A TAD Conjunto Disjunto
 def init_cd(n: int)-> np.ndarray:
     array = []
@@ -336,3 +338,22 @@ def init_cd(n: int)-> np.ndarray:
         array[i] = -1
     
     return array
+
+
+def union(rep_1: int, rep_2: int, p_cd: np.ndarray)-> int:
+    if p_cd[rep_1] > p_cd[rep_2]:
+        p_cd[rep_1] = rep_2
+        return rep_2
+    elif p_cd[rep_1]< p_cd[rep_2]:
+        p_cd[rep_2] = rep_1
+        return rep_1
+    else:
+        p_cd[rep_2] = rep_1
+        p_cd[rep_1]-= 1
+        return rep_1
+
+def cd_2_dict(p_cd: np.ndarray)-> Dict:
+    
+
+    
+        
