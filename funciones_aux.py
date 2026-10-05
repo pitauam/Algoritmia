@@ -6,6 +6,7 @@ from collections.abc import Callable, Iterable, Sequence
 from typing import Any
 import time  # Proporciona temporizadores de alta resolución.
 from random import randint
+import numpy as np
 
 import matplotlib.pyplot as plt  # Biblioteca utilizada para crear gráficas.
 
@@ -312,3 +313,10 @@ plot_single_curve(
 
 
 
+# II.A TAD Conjunto Disjunto
+def init_cd(n: int)-> np.ndarray:
+    array = []
+    for i in range(n):
+        array[i] = -1
+    
+    return array
