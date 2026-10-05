@@ -218,7 +218,7 @@ plot_single_curve(
 )
 """
 
-# HAS SUM PAIR 28/9/26
+# HAS SUM PAIR 28/9/26 y 05/10/26
 def has_sum_pair(par) -> bool:  
     lst, target = par
     dict = {}
@@ -232,3 +232,83 @@ def has_sum_pair(par) -> bool:
 
 def preparar_has_sum_pair(n):
     return [randint(0, n) for i in range(n)]
+
+"""
+Pruebas:
+
+print(has_sum_pair(([1, 4, 7, 12, 3], 11)))
+# True
+
+print(has_sum_pair(([5, 8, 3], 10)))
+# False
+"""
+
+
+# I.B Algoritmos de codificación y compresión de listas
+
+# I.B.1 
+# caso base i = 0 crea 100%
+# mira el siguiente y:
+# si es igual +1
+# si es distinto lo crea
+
+def rle_encode_naive(lst):
+    # tlist tiene dos elementos, elem y count
+    # tlist = [elem, count]
+    
+    tlist = []
+
+    # el primer elemento se añade si o si
+    tlist = tlist + [(lst[0], 1)]
+    # para cada elemento en lst
+    for i in range(len(lst)-1):
+        # separa tlist en elem y count
+        elem, count = tlist[len(tlist)-1]
+        # si el siguiente elemento de lst está en tlist
+        if lst[i+1] == elem:
+            # suma 1 a count sustituyendo la tupla por una con count + 1
+            tlist[len(tlist)-1] = (elem, count + 1)
+        # si el siguiente elemento de lst no está en tlist
+        else:
+            # crea una nueva tupla
+            tlist = tlist + [(lst[i+1], 1)]
+
+    return tlist
+
+def preparar_rle_encode_naive(n):
+    return [i // 10 for i in range(n)]
+
+Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
+
+resultados = time_measure(
+    rle_encode_naive,
+    preparar_rle_encode_naive,
+    Nlist,
+    Nrep=100,
+    Nstat=10
+)
+
+for n, (media, varianza) in zip(Nlist, resultados):
+    print(f"n = {n}")
+    print(f"  Tiempo medio: {media:.10f} segundos")
+    print(f"  Varianza:     {varianza:.10e}")
+    print()
+
+tiempos_medios = []
+
+for media, varianza in resultados:
+    tiempos_medios.append(media)
+
+plot_single_curve(
+    x=Nlist,
+    y=tiempos_medios,
+    title="Tiempo de ejecución de rle_encode_naive",
+    xlabel="Tamaño de entrada (n)",
+    ylabel="Tiempo medio (segundos)",
+    label="rle_encode_naive",
+    style="o-",
+    color="red"
+)
+
+
+
