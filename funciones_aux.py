@@ -279,6 +279,7 @@ def rle_encode_naive(lst):
 def preparar_rle_encode_naive(n):
     return [i // 10 for i in range(n)]
 
+"""
 Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
 
 resultados = time_measure(
@@ -311,6 +312,8 @@ plot_single_curve(
     color="red"
 )
 
+"""
+
 def rle_encode_optimized(lst):
     tlist = []
 
@@ -332,7 +335,27 @@ def rle_encode_optimized(lst):
 # II.A TAD Conjunto Disjunto
 def init_cd(n: int)-> np.ndarray:
     array = []
-    for i in range(n):
-        array[i] = -1
-    
-    return array
+    for _ in range(n):
+        array.append(-1)
+    numpy_array = np.array(array)
+
+    return numpy_array
+
+""" sin compresion de caminos
+def find(ind: int, p_cd: np.ndarray)-> int:
+    while p_cd[ind] != -1:
+        ind = p_cd[ind]
+
+    return ind
+"""
+def find(ind: int, p_cd: np.ndarray)-> int:
+    # find the representative
+    u = ind
+    while p_cd[ind] >= 0:
+        ind = p_cd[ind]
+    # compress the path from u to the root
+    while p_cd[u] >= 0:
+        y = p_cd[u]
+        p_cd[u] = ind
+        u = y
+    return ind
