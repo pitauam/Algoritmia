@@ -311,7 +311,23 @@ plot_single_curve(
     color="red"
 )
 
+def rle_encode_optimized(lst):
+    tlist = []
 
+    # el primer elemento se añade si o si
+    tlist.append((lst[0], 1))
+    # para cada elemento en lst
+    for i in range(len(lst)-1):
+        # separa tlist en elem y count
+        elem, count = tlist[len(tlist)-1]
+        # si el siguiente elemento de lst está en tlist
+        if lst[i+1] == elem:
+            # suma 1 a count sustituyendo la tupla por una con count + 1
+            tlist[len(tlist)-1] = (elem, count + 1)
+        # si el siguiente elemento de lst no está en tlist
+        else:
+            # crea una nueva tupla
+            tlist.append((lst[i+1], 1))
 
 # II.A TAD Conjunto Disjunto
 def init_cd(n: int)-> np.ndarray:
