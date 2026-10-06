@@ -233,7 +233,39 @@ def has_sum_pair(par) -> bool:
 
 def preparar_has_sum_pair(n):
     return [randint(0, n) for i in range(n)]
+"""
+Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
 
+resultados = time_measure(
+    has_sum_pair,
+    preparar_has_sum_pair,
+    Nlist,
+    Nrep=100,
+    Nstat=10
+)
+
+for n, (media, varianza) in zip(Nlist, resultados):
+    print(f"n = {n}")
+    print(f"  Tiempo medio: {media:.10f} segundos")
+    print(f"  Varianza:     {varianza:.10e}")
+    print()
+
+tiempos_medios = []
+
+for media, varianza in resultados:
+    tiempos_medios.append(media)
+
+plot_single_curve(
+    x=Nlist,
+    y=tiempos_medios,
+    title="Tiempo de ejecución de has_sum_pair",
+    xlabel="Tamaño de entrada (n)",
+    ylabel="Tiempo medio (segundos)",
+    label="has_sum_pair",
+    style="o-",
+    color="red"
+)
+"""
 """
 Pruebas:
 
@@ -334,7 +366,39 @@ def rle_encode_optimized(lst):
             tlist.append((lst[i+1], 1))
 
         return tlist
+"""
+Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
 
+resultados = time_measure(
+    rle_encode_optimized,
+    preparar_rle_encode_naive,
+    Nlist,
+    Nrep=100,
+    Nstat=10
+)
+
+for n, (media, varianza) in zip(Nlist, resultados):
+    print(f"n = {n}")
+    print(f"  Tiempo medio: {media:.10f} segundos")
+    print(f"  Varianza:     {varianza:.10e}")
+    print()
+
+tiempos_medios = []
+
+for media, varianza in resultados:
+    tiempos_medios.append(media)
+
+plot_single_curve(
+    x=Nlist,
+    y=tiempos_medios,
+    title="Tiempo de ejecución de rle_encode_optimized",
+    xlabel="Tamaño de entrada (n)",
+    ylabel="Tiempo medio (segundos)",
+    label="rle_encode_optimized",
+    style="o-",
+    color="red"
+)
+"""
 # II.A TAD Conjunto Disjunto
 def init_cd(n: int)-> np.ndarray:
     array = []
