@@ -3,7 +3,7 @@
 
 
 from collections.abc import Callable, Iterable, Sequence
-from typing import Any
+from typing import Any, List, Dict # hay que añadir list y dict
 import time  # Proporciona temporizadores de alta resolución.
 from random import randint
 import numpy as np
@@ -314,6 +314,7 @@ plot_single_curve(
 
 """
 
+#usa el mismo prepare que rle_encode_naive
 def rle_encode_optimized(lst):
     tlist = []
 
@@ -374,6 +375,31 @@ def union(rep_1: int, rep_2: int, p_cd: np.ndarray)-> int:
         p_cd[rep_2] = rep_1
         p_cd[rep_1]-= 1
         return rep_1
-""""
+
+
+
 def cd_2_dict(p_cd: np.ndarray)-> Dict:
-    """
+    dictionary = {}
+
+    for i in range(len(p_cd)):
+        rep = find(i, p_cd)
+        if rep not in dictionary:
+            dictionary[rep] = []
+        else:
+            dictionary[rep].append(i)
+
+    return dictionary
+
+
+
+def ccs(n: int, l: List)-> Dict:
+    p_cd = init_cd(n)
+    
+    for u, v in l:
+        rep_u = find(u, p_cd)
+        rep_v = find(v, p_cd)
+        
+        if rep_u != rep_v:
+            union(rep_u, rep_v, p_cd)
+            
+    return cd_2_dict(p_cd)
