@@ -10,6 +10,9 @@ import numpy as np
 
 import matplotlib.pyplot as plt  # Biblioteca utilizada para crear gráficas.
 
+#Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,]
+# Nlist se usa para crear graficas
+
 
 # I.A.1. Medición de tiempos de ejecución
 def time_measure(
@@ -179,12 +182,11 @@ def find_duplicates(lst) -> list:
 
 def preparar_find_duplicates(n):
     return list(range(n // 2)) + list(range(n // 2))
-"""
-Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900]
+
+
 
 #print(time_measure(find_duplicates, preparar_find_duplicates,Nlist, 10000, 1000))
-
-
+"""
 resultados = time_measure(
     find_duplicates,
     preparar_find_duplicates,
@@ -230,17 +232,29 @@ def has_sum_pair(par) -> bool:
         dict[element] = True
 
     return False
-
-def preparar_has_sum_pair(n):
-    return [randint(0, n) for i in range(n)]
 """
-Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
+def preparar_has_sum_pair(n):
+    lst = [randint(0, n) for i in range(n)]
+    target = randint(0, n * 2) 
+    return (lst, target)
+
+def preparar_peor_caso_sum(n: int) -> tuple[list[int], int]:
+    lst = list(range(n))
+    target = -1 
+    return (lst, target)
+
+def preparar_caso_promedio_sum(n: int) -> tuple[list[int], int]:
+    lst = list(range(n))
+    target = lst[0] + lst[n // 2] 
+    return (lst, target)
+
+
 
 resultados = time_measure(
     has_sum_pair,
     preparar_has_sum_pair,
     Nlist,
-    Nrep=100,
+    Nrep=300,
     Nstat=10
 )
 
@@ -308,11 +322,8 @@ def rle_encode_naive(lst):
 
     return tlist
 
-def preparar_rle_encode_naive(n):
-    return [i // 10 for i in range(n)]
 
 """
-Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
 
 resultados = time_measure(
     rle_encode_naive,
@@ -365,13 +376,16 @@ def rle_encode_optimized(lst):
             # crea una nueva tupla
             tlist.append((lst[i+1], 1))
 
-        return tlist
+    return tlist
+
 """
-Nlist = [10, 20, 50, 100, 200, 300, 400, 500, 900, 2000, 3000, 5000, 7500, 8500, 10000]
+def preparar_rle(n: int) -> list[int]:
+    return [i // 10 for i in range(n)]
+
 
 resultados = time_measure(
-    rle_encode_optimized,
-    preparar_rle_encode_naive,
+    rle_encode_naive,
+    preparar_rle,
     Nlist,
     Nrep=100,
     Nstat=10
@@ -391,7 +405,7 @@ for media, varianza in resultados:
 plot_single_curve(
     x=Nlist,
     y=tiempos_medios,
-    title="Tiempo de ejecución de rle_encode_optimized",
+    title="Tiempo de ejecución de rle_encode_naive",
     xlabel="Tamaño de entrada (n)",
     ylabel="Tiempo medio (segundos)",
     label="rle_encode_optimized",
