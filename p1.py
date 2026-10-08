@@ -179,10 +179,10 @@ def find_duplicates(lst) -> list:
                 break
 
     return salida
-
+"""
 def preparar_find_duplicates(n):
     return list(range(n // 2)) + list(range(n // 2))
-
+"""
 
 
 #print(time_measure(find_duplicates, preparar_find_duplicates,Nlist, 10000, 1000))
