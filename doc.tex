@@ -1,0 +1,91 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[spanish, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{spanish}
+\babelfont{rm}{Noto Sans}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+% NOTA PARA EL ALUMNO: Cuando vayas a compilar esto en tu ordenador e insertar tus graficas reales,
+% descomenta la siguiente linea:
+% \usepackage{graphicx}
+
+\title{\textbf{Práctica 1: Python básico. Medición del tiempo de ejecución. TAD Conjunto Disjunto y Componentes Conexas}}
+\author{
+    Algoritmia y Estructuras de Datos Avanzadas 2026-27 \\
+    Nombre del Estudiante: \textbf{[Escribe tu nombre aquí]} \\
+    Grupo: \textbf{[126 o 127]}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{I.A.4 Medición del rendimiento: \texttt{has\_sum\_pair}}
+
+\subsection*{Gráfica de tiempos de ejecución}
+
+% NOTA: Reemplaza este \framebox con tu \includegraphics cuando tengas la grafica generada.
+% Ejemplo: \includegraphics[width=0.8\textwidth]{mi_grafica_sum_pair.png}
+\begin{center}
+    \framebox{\parbox{0.8\textwidth}{\centering \vspace{2cm} [Inserta aquí tu gráfica comparando el "caso con coincidencia" y el "caso sin coincidencia" para n entre 10 y 10.000] \vspace{2cm}}}
+\end{center}
+
+\subsection*{Análisis y Justificación}
+
+\textbf{¿Cómo varía el tiempo de ejecución en ambos casos a medida que crece n?} \\
+\textit{[Escribe tu respuesta aquí. Analiza la tendencia de las curvas observadas en la gráfica para el caso promedio (early exit) y el caso peor (búsqueda fallida).]}
+
+\vspace{1em}
+
+\textbf{¿Mantiene la función una complejidad temporal de \(\mathcal{O}(n)\) en ambos escenarios?} \\
+\textit{[Escribe tu justificación aquí. Relaciona los tiempos medidos empíricamente con la complejidad teórica esperada utilizando diccionarios/sets.]}
+
+
+\newpage
+\section{I.B.3 Análisis empírico: Algoritmos de codificación RLE}
+
+\subsection*{Gráfica de tiempos de ejecución}
+
+% NOTA: Reemplaza este \framebox con tu \includegraphics
+\begin{center}
+    \framebox{\parbox{0.8\textwidth}{\centering \vspace{2cm} [Inserta aquí tu gráfica comparando rle\_encode\_naive frente a rle\_encode\_optimized] \vspace{2cm}}}
+\end{center}
+
+\subsection*{Análisis y Justificación}
+
+\textbf{¿Cuál es el comportamiento temporal de ambas funciones al hacer crecer n?} \\
+\textit{[Escribe tu respuesta aquí. Compara las pendientes y el crecimiento (lineal vs cuadrático) de ambas funciones.]}
+
+\vspace{1em}
+
+\textbf{¿Qué impacto tienen las operaciones internas de creación y modificación de listas en Python?} \\
+\textit{[Escribe tu respuesta aquí. Explica la diferencia teórica y empírica entre concatenar listas creando objetos nuevos con el operador "+" (naive) vs usar el método de modificación in-place "append()" (optimized).]}
+
+
+\newpage
+\section{II.C Cuestiones sobre Conjuntos Disjuntos y Componentes Conexas}
+
+\begin{enumerate}
+    \item \textbf{Sin darnos cuenta, en nuestro algoritmo de encontrar CCs podemos pasar listas con ramas repetidas o donde los vértices coinciden con los de una que ya está aunque en orden inverso. ¿Afectará esto al resultado del algoritmo? ¿Por qué?}
+    
+    \textit{[Escribe tu respuesta aquí. Razona sobre cómo se comporta la operación Union cuando dos elementos ya pertenecen al mismo representante / Conjunto Disjunto.]}
+    
+    \vspace{2em}
+
+    \item \textbf{Argumentar que nuestro algoritmo de encontrar componentes conexas es correcto, esto es, que a su final en los distintos subconjuntos disjuntos se encuentran los vértices de las distintas componentes del grafo dado.}
+    
+    \textit{[Escribe tu respuesta aquí. Puedes argumentar basándote en la propiedad transitiva de la conectividad en grafos y cómo la estructura de Conjuntos Disjuntos agrupa exhaustivamente los vértices de una misma componente.]}
+    
+    \vspace{2em}
+
+    \item \textbf{El tamaño de un grafo no dirigido viene determinado por el número n de nodos y la longitud de la lista l de ramas. Estimar razonadamente en función de ambos el coste del algoritmo de encontrar las componentes conexas mediante conjuntos disjuntos.}
+    
+    \textit{[Escribe tu respuesta aquí. Analiza el coste de la inicialización y el coste de iterar sobre la lista de tamaño $|l|$, teniendo en cuenta la complejidad casi constante de las operaciones Find (con compresión de caminos) y Union (por rangos).]}
+
+\end{enumerate}
+
+\end{document}
