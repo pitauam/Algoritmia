@@ -462,7 +462,7 @@ def cd_2_dict(p_cd: np.ndarray)-> Dict:
     for i in range(len(p_cd)):
         rep = find(i, p_cd)
         if rep not in dictionary:
-            dictionary[rep] = []
+            dictionary[rep] = [i]
         else:
             dictionary[rep].append(i)
 
