@@ -85,3 +85,17 @@ def time_measure(
         results.append((mean_value, variance_value))
 
     return results
+
+
+def greedy_change(coins: List[int], amount: int) -> Tuple[List[int], int]:
+    res = []
+    coins.sort(reverse=True)
+    for coin in coins:
+        if coin > amount:
+            continue
+    while(coin <= amount):
+            amount = amount-coin
+            res.append(coin)
+         
+    return(res, amount)
+
