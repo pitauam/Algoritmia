@@ -148,5 +148,31 @@ def optimal_change_recursive(coins: List[int], amount: int, dp: Dict) -> List[in
 
 def compare_change(coins: List[int], max_amount: int) -> Dict[str,
 List[int]]:
-    
-    
+    res = {
+"optimal": [],
+"suboptimal": [],
+"greedy_failed": [],
+"impossible": []
+    }
+
+    for i in range(max_amount+1):
+        greedy_comb, remainder = greedy_change(coins, i)
+        optimal_comb = optimal_change(coins, i)
+        if optimal_comb != None and remainder == 0:
+            if (greedy_comb != None):
+                g = len(greedy_comb)
+            if(optimal_comb != None):
+                o = len(optimal_comb)
+            if o == g:
+                res["optimal"].append(i)
+            if g>o:
+                res["suboptimal"].append(i)
+        if remainder != 0:
+            if optimal_comb != None:
+                res["greedy_failed"].append(i)
+            else:
+                res["impossible"].append(i)
+
+    return res
+
+print(compare_change([7,5,3,1],30))
