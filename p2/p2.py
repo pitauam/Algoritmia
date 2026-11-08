@@ -1,7 +1,7 @@
 from collections.abc import Callable, Iterable, Sequence
-from typing import Any, List, Dict, Tuple # hay que añadir list y dict
+from typing import Any, List, Dict, Tuple, Optional # hay que añadir list y dict
 import time  # Proporciona temporizadores de alta resolución.
-from random import randint
+from random import randint, seed as semilla
 import numpy as np
 
 import matplotlib.pyplot as plt  # Biblioteca utilizada para crear gráficas.
@@ -121,6 +121,9 @@ def optimal_change(coins: List[int], amount: int) -> List[int] | None:
 
     return optimal_change_recursive(coins, amount, dp)
 
+
+
+
 #funcion auxiliar para hacer recursión
 def optimal_change_recursive(coins: List[int], amount: int, dp: Dict) -> List[int] | None:
     if amount in dp:
@@ -157,7 +160,8 @@ List[int]]:
 "impossible": []
     }
 
-    for i in range(max_amount+1):
+    #el rango empieza en 1
+    for i in range(1, max_amount+1):
         greedy_comb, remainder = greedy_change(coins, i)
         optimal_comb = optimal_change(coins, i)
         if optimal_comb != None and remainder == 0:
@@ -180,6 +184,9 @@ List[int]]:
 #print(compare_change([7,5,3,1],30))
 
 def activity_selection(activities: List[Tuple[str, int, int]]) -> List[Tuple[str, int, int]]:
+
+    if not activities:
+        return []
 
     #se ordena dependiendo de cuando terminen
     actividades_ordenadas = sorted(activities, key=lambda x: x[2])
@@ -242,10 +249,10 @@ def generate_jobs(n: int, seed: int = 42) -> List[Tuple[str, int, int]]:
     jobs = []
     max_deadline = max(1, n // 10)
     for i in range(n):
-            name = f"J{i}"
-            profit = randint(0, 1000)
-            deadline = randint(1, max_deadline)
-            jobs.append((name,profit ,deadline))
+        name = f"J{i}"
+        profit = randint(1, 1000)
+        deadline = randint(1, max_deadline)
+        jobs.append((name,profit ,deadline))
 
     return jobs
 
