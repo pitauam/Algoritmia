@@ -87,6 +87,8 @@ def time_measure(
     return results
 
 
+#Se supondrá que existe un número ilimitado de monedas de cada moneda, que las monedas son enteros positivos no repetidas y que el sistema no contiene necesariamente una moneda de valor 1.
+
 def greedy_change(coins: List[int], amount: int) -> Tuple[List[int], int]:
 
     coins.sort(reverse=True)
@@ -119,7 +121,7 @@ def optimal_change(coins: List[int], amount: int) -> List[int] | None:
 
     return optimal_change_recursive(coins, amount, dp)
 
-
+#funcion auxiliar para hacer recursión
 def optimal_change_recursive(coins: List[int], amount: int, dp: Dict) -> List[int] | None:
     if amount in dp:
         return dp[amount]
@@ -175,4 +177,76 @@ List[int]]:
 
     return res
 
-print(compare_change([7,5,3,1],30))
+#print(compare_change([7,5,3,1],30))
+
+def activity_selection(activities: List[Tuple[str, int, int]]) -> List[Tuple[str, int, int]]:
+
+    #se ordena dependiendo de cuando terminen
+    actividades_ordenadas = sorted(activities, key=lambda x: x[2])
+    #por defecto la primera actividad se elige si o si
+    actividad_seleccionada = actividades_ordenadas[0]
+    #lista que devolver
+    actividades_realizadas = []
+    #primera actividad realizada
+    actividades_realizadas.append(actividad_seleccionada)
+
+    for actividad in actividades_ordenadas:
+        if actividad[1] >= actividad_seleccionada[2]:
+            #fin-inicio
+            #ocupado = ocupado + (actividad[2] - actividad[1])
+            actividad_seleccionada = actividad
+            actividades_realizadas.append(actividad_seleccionada)
+
+    return actividades_realizadas
+
+
+
+
+def generate_activities(n: int, seed: int = 42) -> List[Tuple[str, int, int]]:
+    #se importa la funcion seed como semilla para que no hayan problemas
+    semilla(seed)
+    
+    activities = []
+    
+    for i in range(n):
+        name = f"A{i}"
+        start = randint(0, 10000)
+        duration = randint(1, 100)
+        end = start + duration
+        
+        activities.append((name, start, end))
+        
+    return activities
+
+def job_scheduling(jobs: List[Tuple[str, int, int]])-> Tuple[List[Optional[Tuple[str, int, int]]], int]:
+    if not jobs :
+        return ([],0)
+    profit_sum = 0
+    max_deadline = max(job[2] for job in jobs)
+    #orden de ordenacion -profit(así reverse=True no ordena al revés con otro criterio),deadline, id
+    jobs_prof = sorted(jobs, key=lambda x: (-x[1],x[2],x[0]))
+    #La longitud de schedule será igual al máximo deadline
+    schedule = [None] * max_deadline
+    for job in jobs_prof:
+        (id,profit,deadline) = job
+    #desde fecha límite hasta primer hueco que encuentre
+        for day in range(deadline-1, -1, -1):
+            if schedule[day] is None:
+                schedule[day] = job
+                profit_sum += profit
+                break
+    return schedule, profit_sum
+
+def generate_jobs(n: int, seed: int = 42) -> List[Tuple[str, int, int]]:
+    semilla(seed)
+    jobs = []
+    max_deadline = max(1, n // 10)
+    for i in range(n):
+            name = f"J{i}"
+            profit = randint(0, 1000)
+            deadline = randint(1, max_deadline)
+            jobs.append((name,profit ,deadline))
+
+    return jobs
+
+#print(job_scheduling(generate_jobs(100)))
