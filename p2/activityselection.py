@@ -28,7 +28,7 @@ def activity_selection(activities: List[Tuple[str, int, int]]) -> List[Tuple[str
     return actividades_realizadas
 
 
-#print(activity_selection([("A",1,4), ("B",3,5), ("C",0,6), ("D",5,7), ("E",8,9), ("F",5,9)]))
+
 
 def generate_activities(n: int, seed: int = 42) -> List[Tuple[str, int, int]]:
     #se importa la funcion seed como semilla para que no hayan problemas
@@ -46,4 +46,5 @@ def generate_activities(n: int, seed: int = 42) -> List[Tuple[str, int, int]]:
         
     return activities
 
+#print(activity_selection(generate_activities(500)))
 #print(activity_selection(generate_activities(500)))
