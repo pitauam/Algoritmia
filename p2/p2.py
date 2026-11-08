@@ -91,7 +91,7 @@ def time_measure(
 
 def greedy_change(coins: List[int], amount: int) -> Tuple[List[int], int]:
 
-    coins.sort(reverse=True)
+    coins = sorted(coins, reverse=True)
 
     #coins selected
     selected = []
@@ -118,6 +118,9 @@ def optimal_change(coins: List[int], amount: int) -> List[int] | None:
     #la mejor forma de llegar a 2 es con una moneda de 2
     for coin in coins:
         dp[coin] = [coin]
+
+    for i in range(1, amount):
+        optimal_change_recursive(coins, i, dp)
 
     return optimal_change_recursive(coins, amount, dp)
 
@@ -189,7 +192,7 @@ def activity_selection(activities: List[Tuple[str, int, int]]) -> List[Tuple[str
         return []
 
     #se ordena dependiendo de cuando terminen
-    actividades_ordenadas = sorted(activities, key=lambda x: x[2])
+    actividades_ordenadas = sorted(activities, key=lambda x: (x[2], x[1], x[0]))
     #por defecto la primera actividad se elige si o si
     actividad_seleccionada = actividades_ordenadas[0]
     #lista que devolver
@@ -197,7 +200,7 @@ def activity_selection(activities: List[Tuple[str, int, int]]) -> List[Tuple[str
     #primera actividad realizada
     actividades_realizadas.append(actividad_seleccionada)
 
-    for actividad in actividades_ordenadas:
+    for actividad in actividades_ordenadas[1:]:
         if actividad[1] >= actividad_seleccionada[2]:
             #fin-inicio
             #ocupado = ocupado + (actividad[2] - actividad[1])
