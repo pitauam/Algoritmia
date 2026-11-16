@@ -11,6 +11,44 @@ import random
 # I.A Alineamiento Global: Needleman-Wunsch
 
 def needleman_wunsch_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> list[list[int]]:
+
+    #primero hay que hacer la matriz:
+    # columnas es seq1 y filas son seq2. "_" no se usa y por eso se llama así
+    filas = len(seq2) + 1
+    columnas = len(seq1) + 1
+    matriz = []
+
+    for i in range(filas):
+        fila_nueva = []
+        for j in range(columnas):
+            fila_nueva.append(0)
+        matriz.append(fila_nueva)
+
+    #se rellena la primera columna y la primera fila
+    for i in range(filas):
+        matriz[i][0] = i * gap
+    
+    for i in range(columnas):
+        matriz[0][i] = i * gap
+
+    #algoritmo para calcular la matriz, el rango es de 1 a filas para no salirse al hacer seq[i-1]
+    for i in range(1, filas):
+        for j in range(1, columnas):
+            #si coinciden las letras el score es 2
+            if seq2[i - 1] == seq1[j - 1]:
+                score = match
+            #si no coinciden se pone el score a mismatch
+            else:
+                score = mismatch
+
+            #se calculan las 3 opciones
+            diagonal = matriz[i - 1][j - 1] + score
+            arriba = matriz[i - 1][j] + gap
+            izquierda = matriz[i][j - 1] + gap
+
+            #se elige el maximo de entre las 3 opciones
+            matriz[i][j] = max(diagonal, arriba, izquierda)
+
     """
     Construye y devuelve la matriz completa de programación dinámica para el 
     alineamiento global de dos secuencias mediante el algoritmo Needleman-Wunsch.
@@ -25,7 +63,7 @@ def needleman_wunsch_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int 
     :param gap: Penalización por introducción de hueco (gap).
     :return: Matriz de programación dinámica (lista de listas de enteros).
     """
-    pass
+    return matriz
 
 def needleman_wunsch_backtracking(matrix: list[list[int]], seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> tuple[str, str, int]:
     """
