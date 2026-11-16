@@ -108,7 +108,34 @@ def smith_waterman_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int = 
     :param gap: Penalización por hueco.
     :return: Matriz de programación dinámica local (lista de listas de enteros).
     """
-    pass
+    filas = len(seq2) + 1
+    columnas = len(seq1) + 1
+    matriz = []
+
+    #crear matriz de ceros
+    #los bordes se ponen a 0
+    for i in range(filas):
+        fila_nueva = []
+        for j in range(columnas):
+            fila_nueva.append(0)
+        matriz.append(fila_nueva)
+
+    #se rellena lo de dentro
+    for i in range(1, filas):
+        for j in range(1, columnas):
+            if seq2[i - 1] == seq1[j - 1]:
+                score = match
+            else:
+                score = mismatch
+
+            diagonal = matriz[i - 1][j - 1] + score
+            arriba = matriz[i - 1][j] + gap
+            izquierda = matriz[i][j - 1] + gap
+
+            #se mete un 0 en el max para que no sea negativo :)
+            matriz[i][j] = max(0, diagonal, arriba, izquierda)
+
+    return matriz
 
 def smith_waterman_backtracking(matrix: list[list[int]], seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> tuple[str, str, int]:
     """
