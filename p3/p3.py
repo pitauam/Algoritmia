@@ -65,6 +65,11 @@ def needleman_wunsch_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int 
     """
     return matriz
 
+#prueba cutre
+#for i in range(5):
+#    print(needleman_wunsch_matrix("HELO", "HALO", 2, -1, -1)[i])
+
+
 def needleman_wunsch_backtracking(matrix: list[list[int]], seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> tuple[str, str, int]:
     """
     Reconstruye las secuencias alineadas globalmente y calcula el score total a partir 
