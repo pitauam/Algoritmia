@@ -350,15 +350,15 @@ def min_path_dp(grid: list[list[int]]) -> tuple[int, list[list[int]]]:
         dp.append(fila_nueva)
 
     #caso base: el origen (0, 0)
-    dp = grid
+    dp[0][0] = grid[0][0]
 
     #se rellena la primera columna (solo se puede bajar desde arriba)
     for i in range(1, filas):
-        dp[i] = dp[i - 1] + grid[i]
+        dp[i][0] = dp[i - 1][0] + grid[i][0]
 
     #se rellena la primera fila (solo se puede avanzar desde la izquierda)
     for j in range(1, columnas):
-        dp[j] = dp[j - 1] + grid[j]
+        dp[0][j] = dp[0][j - 1] + grid[0][j]
 
     #algoritmo bottom-up para rellenar el resto de la tabla
     for i in range(1, filas):
@@ -372,7 +372,7 @@ def min_path_dp(grid: list[list[int]]) -> tuple[int, list[list[int]]]:
     coste_minimo = dp[filas - 1][columnas - 1]
 
     return (coste_minimo, dp)
-
+"""
 f0 = [1, 3, 1, 2]
 f1 = [2, 1, 8, 1]
 f2 = [4, 2, 1, 3]
@@ -380,10 +380,10 @@ f3 = [5, 2, 1, 1]
 grid_ejemplo = [f0, f1, f2, f3]
 
 coste, matriz_dp = min_path_dp(grid_ejemplo)
-print("Coste:", coste)
+print("coste:", coste)
 for fila in matriz_dp:
     print(fila)
-
+"""
 
 # II.C Reconstrucción de la Ruta Óptima
 
