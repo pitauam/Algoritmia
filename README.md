@@ -27,3 +27,49 @@ cantiadades de 1 a 500 en greedy
 10 mediciones
 
 IMPORTANTE: mismas semillas
+
+
+
+
+--------practica 3:-----------
+
+Ya estan hechos:
+I.A.1
+I.B.1
+-------------------
+pita:
+I.B.2 
+II.A
+II.B
+II.C
+II.D (memoria)
+
+unai:
+I.A.2
+III.A.1
+III.A.2 (memoria)
+III.B.1
+III.B.2 (memoria)
+III.C.1
+III.C.2 
+III.C.3(memoria)
+-------------------
+
+
+lista:
+I.A.2
+I.B.2 
+I.C (memoria)
+
+II.A
+II.B
+II.C
+II.D (memoria)
+
+III.A.1
+III.A.2 (memoria)
+III.B.1
+III.B.2 (memoria)
+III.C.1
+III.C.2 
+III.C.3(memoria)
