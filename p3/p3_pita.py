@@ -296,15 +296,15 @@ def min_path_recursive(grid: list[list[int]], i: int, j: int) -> int:
     :param j: Índice de la columna de la celda destino.
     :return: Coste acumulado mínimo para llegar a la celda (i, j).
     """
-    #caso base 1: si llegamos al origen (0, 0), devolvemos su propio coste
+    #caso base 1: si se llega al origen (0, 0), se devuelve su propio coste
     if i == 0 and j == 0:
         return grid[0][0]
 
-    #caso base 2: si estamos en la primera fila (i == 0), solo podemos venir de la izquierda
+    #caso base 2: si estamos en la primera fila solo se puede venir de la izquierda
     if i == 0:
         return grid[0][j] + min_path_recursive(grid, 0, j - 1)
 
-    #caso base 3: si estamos en la primera columna (j == 0), solo podemos venir de arriba
+    #caso base 3: si estamos en la primera columna solo se puede venir de arriba
     if j == 0:
         return grid[i][0] + min_path_recursive(grid, i - 1, 0)
 
