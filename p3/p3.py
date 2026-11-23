@@ -252,18 +252,33 @@ def smith_waterman_backtracking(matrix: list[list[int]], seq1: str, seq2: str, m
 
     return (sub_seq1, sub_seq2, max_score)
 
-#prueba
+#pruebas
 """
-f0 = [0, 0, 0, 0, 0]
-f1 = [0, 2, 1, 0, 0]
-f2 = [0, 1, 1, 0, 0]
-f3 = [0, 0, 0, 3, 2]
-f4 = [0, 0, 0, 2, 5]
-matriz = [f0, f1, f2, f3, f4]
+f0 = [0, 0, 0, 0, 0, 0]
+f1 = [0, 2, 1, 0, 0, 0]
+f2 = [0, 1, 4, 3, 2, 1]
+f3 = [0, 0, 3, 3, 2, 4]
+f4 = [0, 0, 2, 2, 5, 4]
+f5 = [0, 0, 1, 1, 4, 7]
+matriz_test = [f0, f1, f2, f3, f4, f5]
 
-print(smith_waterman_backtracking(matriz, "HELO", "HALO", 2, -1, -1))
+print(smith_waterman_backtracking(matriz_test, "CGTGA", "CGAGA", 2, -1, -1))
+
+f0_igual = [ 0, 0 ]
+f1_igual = [ 0, 2 ]
+m_igual = [f0_igual, f1_igual]
+print(smith_waterman_backtracking(m_igual, "H", "H", 2, -1, -1))
+
+f0_distinta = [ 0, 0 ]
+f1_distinta = [ 0, 0 ]
+m_distinta = [f0_distinta, f1_distinta]
+print(smith_waterman_backtracking(m_distinta, "H", "E", 2, -1, -1))
+print(smith_waterman_backtracking(m_distinta, "H", "h", 2, -1, -1))
+
+f0_vacia = [ 0, 0 ]
+m_vacia = [f0_vacia]
+print(smith_waterman_backtracking(m_vacia, "H", "", 2, -1, -1))
 """
-
 
 # =============================================================================
 # II. Optimización de Rutas en una Cuadrícula
@@ -281,8 +296,37 @@ def min_path_recursive(grid: list[list[int]], i: int, j: int) -> int:
     :param j: Índice de la columna de la celda destino.
     :return: Coste acumulado mínimo para llegar a la celda (i, j).
     """
-    pass
+    #caso base 1: si se llega al origen (0, 0), se devuelve su propio coste
+    if i == 0 and j == 0:
+        return grid[0][0]
 
+    #caso base 2: si estamos en la primera fila solo se puede venir de la izquierda
+    if i == 0:
+        return grid[0][j] + min_path_recursive(grid, 0, j - 1)
+
+    #caso base 3: si estamos en la primera columna solo se puede venir de arriba
+    if j == 0:
+        return grid[i][0] + min_path_recursive(grid, i - 1, 0)
+
+    #caso general: elegimos el camino mas barato entre venir de arriba o de la izquierda
+    arriba = min_path_recursive(grid, i - 1, j)
+    izquierda = min_path_recursive(grid, i, j - 1)
+
+    return grid[i][j] + min(arriba, izquierda)
+
+"""
+f0 = [ 1, 3, 1, 2 ]
+f1 = [ 2, 1, 8, 1 ]
+f2 = [ 4, 2, 1, 2 ]
+f3 = [ 5, 2, 1, 1 ]
+grid = [f0, f1, f2, f3]
+
+#coste hasta esquina abajo izquierda (9)
+print(min_path_recursive(grid, 3, 3))
+
+#caso limite desde origen hasta origen
+print(min_path_recursive(grid, 0, 0))
+"""
 # II.B Programación Dinámica (Enfoque Bottom-Up)
 
 def min_path_dp(grid: list[list[int]]) -> tuple[int, list[list[int]]]:
@@ -293,7 +337,52 @@ def min_path_dp(grid: list[list[int]]) -> tuple[int, list[list[int]]]:
     :param grid: Matriz de costes de dimensiones N x M.
     :return: Tupla con el coste mínimo global (int) y la matriz dp de costes acumulados.
     """
-    pass
+    filas = len(grid)
+    columnas = len(grid)
+
+    #se crea la matriz dp con ceros
+    dp = []
+    for i in range(filas):
+        fila_nueva = []
+        for j in range(columnas):
+            fila_nueva.append(0)
+        dp.append(fila_nueva)
+
+    #caso base: el origen (0, 0)
+    dp[0][0] = grid[0][0]
+
+    #se rellena la primera columna (solo se puede bajar desde arriba)
+    for i in range(1, filas):
+        dp[i][0] = dp[i - 1][0] + grid[i][0]
+
+    #se rellena la primera fila (solo se puede avanzar desde la izquierda)
+    for j in range(1, columnas):
+        dp[0][j] = dp[0][j - 1] + grid[0][j]
+
+    #algoritmo bottom-up para rellenar el resto de la tabla
+    for i in range(1, filas):
+        for j in range(1, columnas):
+            arriba = dp[i - 1][j]
+            izquierda = dp[i][j - 1]
+            #se elige al menor entre el de arriba y el de la izquierda
+            dp[i][j] = grid[i][j] + min(arriba, izquierda)
+
+    #el coste minimo global se guarda en la esquina de abajo a la derecha
+    coste_minimo = dp[filas - 1][columnas - 1]
+
+    return (coste_minimo, dp)
+"""
+f0 = [1, 3, 1, 2]
+f1 = [2, 1, 8, 1]
+f2 = [4, 2, 1, 3]
+f3 = [5, 2, 1, 1]
+grid_ejemplo = [f0, f1, f2, f3]
+
+coste, matriz_dp = min_path_dp(grid_ejemplo)
+print("coste:", coste)
+for fila in matriz_dp:
+    print(fila)
+"""
 
 # II.C Reconstrucción de la Ruta Óptima
 
