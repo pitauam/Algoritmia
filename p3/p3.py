@@ -154,7 +154,71 @@ def smith_waterman_backtracking(matrix: list[list[int]], seq1: str, seq2: str, m
     :param gap: Penalización por hueco.
     :return: Tupla con (sub_seq1, sub_seq2, max_score).
     """
-    pass
+    #primero se saca el numero de filas y columnas de la matriz
+    filas = len(matrix)
+    columnas = len(matrix[0])
+
+    #variables para guardar el valor maximo y su posicion (i = fila, j = columna)
+    max_score = 0
+    max_i = 0
+    max_j = 0
+
+    #se recorre toda la matriz para encontrar el valor maximo global
+    for i in range(filas):
+        for j in range(columnas):
+            if matrix[i][j] > max_score:
+                max_score = matrix[i][j]
+                max_i = i
+                max_j = j
+
+    #variables para ir guardando las secuencias alineadas
+    sub_seq1 = ""
+    sub_seq2 = ""
+
+    #se empieza el backtracking desde la posicion del maximo
+    i = max_i
+    j = max_j
+
+    #el bucle sigue mientras no se llegue a una celda con 0 ni se salga de los bordes
+    while i > 0 and j > 0 and matrix[i][j] > 0:
+        #se mira si las letras coinciden (filas son seq2 y columnas son seq1)
+        if seq2[i - 1] == seq1[j - 1]:
+            score = match
+        else:
+            score = mismatch
+
+        #se comprueba de donde viene el valor de la celda actual:
+        #si viene de la diagonal (match o mismatch)
+        if matrix[i][j] == matrix[i - 1][j - 1] + score:
+            sub_seq1 = seq1[j - 1] + sub_seq1
+            sub_seq2 = seq2[i - 1] + sub_seq2
+            i -= 1
+            j -= 1
+        #si viene de arriba (gap en seq1, que son las columnas)
+        elif matrix[i][j] == matrix[i - 1][j] + gap:
+            sub_seq1 = "-" + sub_seq1
+            sub_seq2 = seq2[i - 1] + sub_seq2
+            i -= 1
+        #si viene de la izquierda (gap en seq2, que son las filas)
+        elif matrix[i][j] == matrix[i][j - 1] + gap:
+            sub_seq1 = seq1[j - 1] + sub_seq1
+            sub_seq2 = "-" + sub_seq2
+            j -= 1
+
+    return (sub_seq1, sub_seq2, max_score)
+
+#prueba
+"""
+f0 = [0, 0, 0, 0, 0]
+f1 = [0, 2, 1, 0, 0]
+f2 = [0, 1, 1, 0, 0]
+f3 = [0, 0, 0, 3, 2]
+f4 = [0, 0, 0, 2, 5]
+matriz = [f0, f1, f2, f3, f4]
+
+print(smith_waterman_backtracking(matriz, "HELO", "HALO", 2, -1, -1))
+"""
+
 
 # =============================================================================
 # II. Optimización de Rutas en una Cuadrícula
@@ -203,7 +267,7 @@ def get_optimal_path(grid: list[list[int]]) -> tuple[int, list[tuple[int, int]]]
 # =============================================================================
 # III. Simulación de Movimiento y Difusión mediante Caminata Aleatoria (Random Walk)
 # =============================================================================
-
+#nota: probabilidad entre 0 y 1
 # III.A El comportamiento de una partícula individual
 
 def simulate_single_walk(steps: int) -> tuple[float, float, float]:
