@@ -316,6 +316,17 @@ def get_optimal_path(grid: list[list[int]]) -> tuple[int, list[tuple[int, int]]]
 # III.A El comportamiento de una partícula individual
 
 def simulate_single_walk(steps: int) -> tuple[float, float, float]:
+    if(steps == 0):
+        return (0.0,0.0,0.0)
+    x=0.0
+    y=0.0
+    for i in range(steps):
+        theta = random.uniform(0, 2 * math.pi)
+        xi = math.cos(theta)
+        yi = math.sin(theta)
+        x = x+xi
+        y = y+yi
+    return (x,y, math.sqrt((x*x)+(y*y)))
     """
     Simula la trayectoria bidimensional de una sola partícula que parte desde el origen (0.0, 0.0) 
     y da un número determinado de pasos en direcciones aleatorias uniformes [0, 2*pi).

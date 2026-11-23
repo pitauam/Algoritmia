@@ -35,6 +35,7 @@ IMPORTANTE: mismas semillas
 
 Ya estan hechos:
 I.A.1
+I.A.2
 I.B.1
 -------------------
 pita:
@@ -45,7 +46,6 @@ II.C
 II.D (memoria)
 
 unai:
-I.A.2
 III.A.1
 III.A.2 (memoria)
 III.B.1

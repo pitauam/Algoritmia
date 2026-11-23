@@ -1,4 +1,6 @@
 
+import math
+import random
 
 def needleman_wunsch_backtracking(matrix: list[list[int]], seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> tuple[str, str, int]:
     seq1_final = []
@@ -60,3 +62,38 @@ def needleman_wunsch_backtracking(matrix: list[list[int]], seq1: str, seq2: str,
     :param gap: Penalización por hueco.
     :return: Tupla con (aligned_seq1, aligned_seq2, total_score).
     """
+
+def simulate_single_walk(steps: int) -> tuple[float, float, float]:
+    if(steps == 0):
+        return (0.0,0.0,0.0)
+    x=0.0
+    y=0.0
+    for i in range(steps):
+        theta = random.uniform(0, 2 * math.pi)
+        xi = math.cos(theta)
+        yi = math.sin(theta)
+        x = x+xi
+        y = y+yi
+    return (x,y, math.sqrt((x*x)+(y*y)))
+
+    """
+    Simula la trayectoria bidimensional de una sola partícula que parte desde el origen (0.0, 0.0) 
+    y da un número determinado de pasos en direcciones aleatorias uniformes [0, 2*pi).
+
+    :param steps: Número de pasos a simular.
+    :return: Tupla con la posición final (x, y) y la distancia euclidiana final al origen.
+    """
+print(simulate_single_walk(50))
+def monte_carlo_diffusion_simulation(num_particles: int, num_steps: int) -> float:
+    
+    
+    
+    """
+    Aplica el método de Monte Carlo simulando un conjunto masivo de partículas independientes 
+    para calcular la Distancia Cuadrática Media (R^2).
+
+    :param num_particles: Número total de partículas independientes a simular.
+    :param num_steps: Número de pasos por caminata.
+    :return: Valor de la Distancia Cuadrática Media (R^2).
+    """
+    pass
