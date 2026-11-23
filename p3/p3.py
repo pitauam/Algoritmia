@@ -207,18 +207,33 @@ def smith_waterman_backtracking(matrix: list[list[int]], seq1: str, seq2: str, m
 
     return (sub_seq1, sub_seq2, max_score)
 
-#prueba
+#pruebas
 """
-f0 = [0, 0, 0, 0, 0]
-f1 = [0, 2, 1, 0, 0]
-f2 = [0, 1, 1, 0, 0]
-f3 = [0, 0, 0, 3, 2]
-f4 = [0, 0, 0, 2, 5]
-matriz = [f0, f1, f2, f3, f4]
+f0 = [0, 0, 0, 0, 0, 0]
+f1 = [0, 2, 1, 0, 0, 0]
+f2 = [0, 1, 4, 3, 2, 1]
+f3 = [0, 0, 3, 3, 2, 4]
+f4 = [0, 0, 2, 2, 5, 4]
+f5 = [0, 0, 1, 1, 4, 7]
+matriz_test = [f0, f1, f2, f3, f4, f5]
 
-print(smith_waterman_backtracking(matriz, "HELO", "HALO", 2, -1, -1))
+print(smith_waterman_backtracking(matriz_test, "CGTGA", "CGAGA", 2, -1, -1))
+
+f0_igual = [ 0, 0 ]
+f1_igual = [ 0, 2 ]
+m_igual = [f0_igual, f1_igual]
+print(smith_waterman_backtracking(m_igual, "H", "H", 2, -1, -1))
+
+f0_distinta = [ 0, 0 ]
+f1_distinta = [ 0, 0 ]
+m_distinta = [f0_distinta, f1_distinta]
+print(smith_waterman_backtracking(m_distinta, "H", "E", 2, -1, -1))
+print(smith_waterman_backtracking(m_distinta, "H", "h", 2, -1, -1))
+
+f0_vacia = [ 0, 0 ]
+m_vacia = [f0_vacia]
+print(smith_waterman_backtracking(m_vacia, "H", "", 2, -1, -1))
 """
-
 
 # =============================================================================
 # II. Optimización de Rutas en una Cuadrícula
@@ -236,7 +251,37 @@ def min_path_recursive(grid: list[list[int]], i: int, j: int) -> int:
     :param j: Índice de la columna de la celda destino.
     :return: Coste acumulado mínimo para llegar a la celda (i, j).
     """
-    pass
+    #caso base 1: si llegamos al origen (0, 0), devolvemos su propio coste
+    if i == 0 and j == 0:
+        return grid[0][0]
+
+    #caso base 2: si estamos en la primera fila (i == 0), solo podemos venir de la izquierda
+    if i == 0:
+        return grid[0][j] + min_path_recursive(grid, 0, j - 1)
+
+    #caso base 3: si estamos en la primera columna (j == 0), solo podemos venir de arriba
+    if j == 0:
+        return grid[i][0] + min_path_recursive(grid, i - 1, 0)
+
+    #caso general: elegimos el camino mas barato entre venir de arriba o de la izquierda
+    arriba = min_path_recursive(grid, i - 1, j)
+    izquierda = min_path_recursive(grid, i, j - 1)
+
+    return grid[i][j] + min(arriba, izquierda)
+
+"""
+f0 = [ 1, 3, 1, 2 ]
+f1 = [ 2, 1, 8, 1 ]
+f2 = [ 4, 2, 1, 2 ]
+f3 = [ 5, 2, 1, 1 ]
+grid = [f0, f1, f2, f3]
+
+#coste hasta esquina abajo izquierda (9)
+print(min_path_recursive(grid, 3, 3))
+
+#caso limite desde origen hasta origen
+print(min_path_recursive(grid, 0, 0))
+"""
 
 # II.B Programación Dinámica (Enfoque Bottom-Up)
 
