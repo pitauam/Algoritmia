@@ -11,6 +11,44 @@ import random
 # I.A Alineamiento Global: Needleman-Wunsch
 
 def needleman_wunsch_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> list[list[int]]:
+
+    #primero hay que hacer la matriz:
+    # columnas es seq1 y filas son seq2. "_" no se usa y por eso se llama así
+    filas = len(seq2) + 1
+    columnas = len(seq1) + 1
+    matriz = []
+
+    for i in range(filas):
+        fila_nueva = []
+        for j in range(columnas):
+            fila_nueva.append(0)
+        matriz.append(fila_nueva)
+
+    #se rellena la primera columna y la primera fila
+    for i in range(filas):
+        matriz[i][0] = i * gap
+    
+    for i in range(columnas):
+        matriz[0][i] = i * gap
+
+    #algoritmo para calcular la matriz, el rango es de 1 a filas para no salirse al hacer seq[i-1]
+    for i in range(1, filas):
+        for j in range(1, columnas):
+            #si coinciden las letras el score es 2
+            if seq2[i - 1] == seq1[j - 1]:
+                score = match
+            #si no coinciden se pone el score a mismatch
+            else:
+                score = mismatch
+
+            #se calculan las 3 opciones
+            diagonal = matriz[i - 1][j - 1] + score
+            arriba = matriz[i - 1][j] + gap
+            izquierda = matriz[i][j - 1] + gap
+
+            #se elige el maximo de entre las 3 opciones
+            matriz[i][j] = max(diagonal, arriba, izquierda)
+
     """
     Construye y devuelve la matriz completa de programación dinámica para el 
     alineamiento global de dos secuencias mediante el algoritmo Needleman-Wunsch.
@@ -25,7 +63,12 @@ def needleman_wunsch_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int 
     :param gap: Penalización por introducción de hueco (gap).
     :return: Matriz de programación dinámica (lista de listas de enteros).
     """
-    pass
+    return matriz
+
+#prueba cutre
+#for i in range(5):
+#    print(needleman_wunsch_matrix("HELO", "HALO", 2, -1, -1)[i])
+
 
 def needleman_wunsch_backtracking(matrix: list[list[int]], seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> tuple[str, str, int]:
     seq1_final = []
@@ -110,7 +153,34 @@ def smith_waterman_matrix(seq1: str, seq2: str, match: int = 2, mismatch: int = 
     :param gap: Penalización por hueco.
     :return: Matriz de programación dinámica local (lista de listas de enteros).
     """
-    pass
+    filas = len(seq2) + 1
+    columnas = len(seq1) + 1
+    matriz = []
+
+    #crear matriz de ceros
+    #los bordes se ponen a 0
+    for i in range(filas):
+        fila_nueva = []
+        for j in range(columnas):
+            fila_nueva.append(0)
+        matriz.append(fila_nueva)
+
+    #se rellena lo de dentro
+    for i in range(1, filas):
+        for j in range(1, columnas):
+            if seq2[i - 1] == seq1[j - 1]:
+                score = match
+            else:
+                score = mismatch
+
+            diagonal = matriz[i - 1][j - 1] + score
+            arriba = matriz[i - 1][j] + gap
+            izquierda = matriz[i][j - 1] + gap
+
+            #se mete un 0 en el max para que no sea negativo :)
+            matriz[i][j] = max(0, diagonal, arriba, izquierda)
+
+    return matriz
 
 def smith_waterman_backtracking(matrix: list[list[int]], seq1: str, seq2: str, match: int = 2, mismatch: int = -1, gap: int = -1) -> tuple[str, str, int]:
     """
@@ -129,7 +199,71 @@ def smith_waterman_backtracking(matrix: list[list[int]], seq1: str, seq2: str, m
     :param gap: Penalización por hueco.
     :return: Tupla con (sub_seq1, sub_seq2, max_score).
     """
-    pass
+    #primero se saca el numero de filas y columnas de la matriz
+    filas = len(matrix)
+    columnas = len(matrix[0])
+
+    #variables para guardar el valor maximo y su posicion (i = fila, j = columna)
+    max_score = 0
+    max_i = 0
+    max_j = 0
+
+    #se recorre toda la matriz para encontrar el valor maximo global
+    for i in range(filas):
+        for j in range(columnas):
+            if matrix[i][j] > max_score:
+                max_score = matrix[i][j]
+                max_i = i
+                max_j = j
+
+    #variables para ir guardando las secuencias alineadas
+    sub_seq1 = ""
+    sub_seq2 = ""
+
+    #se empieza el backtracking desde la posicion del maximo
+    i = max_i
+    j = max_j
+
+    #el bucle sigue mientras no se llegue a una celda con 0 ni se salga de los bordes
+    while i > 0 and j > 0 and matrix[i][j] > 0:
+        #se mira si las letras coinciden (filas son seq2 y columnas son seq1)
+        if seq2[i - 1] == seq1[j - 1]:
+            score = match
+        else:
+            score = mismatch
+
+        #se comprueba de donde viene el valor de la celda actual:
+        #si viene de la diagonal (match o mismatch)
+        if matrix[i][j] == matrix[i - 1][j - 1] + score:
+            sub_seq1 = seq1[j - 1] + sub_seq1
+            sub_seq2 = seq2[i - 1] + sub_seq2
+            i -= 1
+            j -= 1
+        #si viene de arriba (gap en seq1, que son las columnas)
+        elif matrix[i][j] == matrix[i - 1][j] + gap:
+            sub_seq1 = "-" + sub_seq1
+            sub_seq2 = seq2[i - 1] + sub_seq2
+            i -= 1
+        #si viene de la izquierda (gap en seq2, que son las filas)
+        elif matrix[i][j] == matrix[i][j - 1] + gap:
+            sub_seq1 = seq1[j - 1] + sub_seq1
+            sub_seq2 = "-" + sub_seq2
+            j -= 1
+
+    return (sub_seq1, sub_seq2, max_score)
+
+#prueba
+"""
+f0 = [0, 0, 0, 0, 0]
+f1 = [0, 2, 1, 0, 0]
+f2 = [0, 1, 1, 0, 0]
+f3 = [0, 0, 0, 3, 2]
+f4 = [0, 0, 0, 2, 5]
+matriz = [f0, f1, f2, f3, f4]
+
+print(smith_waterman_backtracking(matriz, "HELO", "HALO", 2, -1, -1))
+"""
+
 
 # =============================================================================
 # II. Optimización de Rutas en una Cuadrícula
@@ -178,7 +312,7 @@ def get_optimal_path(grid: list[list[int]]) -> tuple[int, list[tuple[int, int]]]
 # =============================================================================
 # III. Simulación de Movimiento y Difusión mediante Caminata Aleatoria (Random Walk)
 # =============================================================================
-
+#nota: probabilidad entre 0 y 1
 # III.A El comportamiento de una partícula individual
 
 def simulate_single_walk(steps: int) -> tuple[float, float, float]:
