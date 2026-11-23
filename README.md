@@ -34,10 +34,13 @@ IMPORTANTE: mismas semillas
 --------practica 3:-----------
 
 Ya estan hechos:
-I.A.1
-I.B.1
-I.B.2
-II.A
+I.A.1 X
+I.B.1 X
+I.B.2 X
+II.A X
+II.B X
+I.A.2 
+III.A.1
 -------------------
 pita:
 I.B.2 
@@ -47,7 +50,7 @@ II.C
 II.D (memoria)
 
 unai:
-I.A.2
+I.A.2 
 III.A.1
 III.A.2 (memoria)
 III.B.1
