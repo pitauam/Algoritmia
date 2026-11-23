@@ -36,6 +36,8 @@ IMPORTANTE: mismas semillas
 Ya estan hechos:
 I.A.1
 I.B.1
+I.B.2
+II.A
 -------------------
 pita:
 I.B.2 
