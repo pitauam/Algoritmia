@@ -41,17 +41,20 @@ II.A X
 II.B X
 I.A.2 X
 III.A.1 X
+II.C X
+I.C (memoria) X
 
 -------------------
 pita:
-I.B.2 
-II.A
-II.B
-II.C
-II.D (memoria)
+I.B.2 X
+II.A X
+II.B X
+II.C X
+II.D (memoria) X
+I.C (memoria) X
 
 unai:
-III.A.1
+III.A.1 X
 III.A.2 (memoria)
 III.B.1
 III.B.2 (memoria)
