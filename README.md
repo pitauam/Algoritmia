@@ -34,11 +34,6 @@ IMPORTANTE: mismas semillas
 --------practica 3:-----------
 
 Ya estan hechos:
-<<<<<<< HEAD
-I.A.1
-I.A.2
-I.B.1
-=======
 I.A.1 X
 I.B.1 X
 I.B.2 X
@@ -46,7 +41,6 @@ II.A X
 II.B X
 I.A.2 
 III.A.1
->>>>>>> 79d334489678e6136c653cdbacfb4422ada7c17c
 -------------------
 pita:
 I.B.2 
@@ -56,10 +50,6 @@ II.C
 II.D (memoria)
 
 unai:
-<<<<<<< HEAD
-=======
-I.A.2 
->>>>>>> 79d334489678e6136c653cdbacfb4422ada7c17c
 III.A.1
 III.A.2 (memoria)
 III.B.1
