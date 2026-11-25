@@ -308,7 +308,7 @@ def min_path_recursive(grid: list[list[int]], i: int, j: int) -> int:
     if j == 0:
         return grid[i][0] + min_path_recursive(grid, i - 1, 0)
 
-    #caso general: elegimos el camino mas barato entre venir de arriba o de la izquierda
+    #recursión: se elige el camino mas barato entre venir de arriba o de la izquierda
     arriba = min_path_recursive(grid, i - 1, j)
     izquierda = min_path_recursive(grid, i, j - 1)
 
@@ -338,7 +338,7 @@ def min_path_dp(grid: list[list[int]]) -> tuple[int, list[list[int]]]:
     :return: Tupla con el coste mínimo global (int) y la matriz dp de costes acumulados.
     """
     filas = len(grid)
-    columnas = len(grid)
+    columnas = len(grid[0])
 
     #se crea la matriz dp con ceros
     dp = []
@@ -396,7 +396,51 @@ def get_optimal_path(grid: list[list[int]]) -> tuple[int, list[tuple[int, int]]]
     :param grid: Matriz original de costes.
     :return: Tupla con el coste total mínimo y la lista de coordenadas (i, j) de la ruta.
     """
-    pass
+    
+    #se obtiene el coste minimo y la matriz dp llamando a min_path_dp
+    coste_minimo, dp = min_path_dp(grid)
+
+    filas = len(grid)
+    columnas = len(grid[0])
+
+    #se empieza el backtracking desde la esquina de abajo a la derecha (N-1, M-1)
+    i = filas - 1
+    j = columnas - 1
+    ruta = [(i, j)]
+
+    #se retrocede hasta llegar al origen (0, 0)
+    while i > 0 or j > 0:
+        if i == 0:
+            #si estamos en la primera fila, solo se puede venir desde la izquierda
+            j -= 1
+        elif j == 0:
+            #si estamos en la primera columna, solo se puede venir desde arriba
+            i -= 1
+        else:
+            arriba = dp[i - 1][j]
+            izquierda = dp[i][j - 1]
+            #se elige al menor entre el de arriba y el de la izquierda y se retrocede a la izq o arriba dependiendo de cual sea la menor
+            if arriba < izquierda:
+                i -= 1
+            else:
+                j -= 1
+        ruta.append((i, j))
+
+    #se invierte la lista para que vaya desde (0, 0) hasta (N-1, M-1)
+    ruta.reverse()
+
+    return (coste_minimo, ruta)
+"""
+f0 = [1, 3, 1, 2]
+f1 = [2, 1, 8, 1]
+f2 = [4, 2, 1, 3]
+f3 = [5, 2, 1, 1]
+grid_ejemplo = [f0, f1, f2, f3]
+
+coste, ruta = get_optimal_path(grid_ejemplo)
+print("coste:", coste)
+print("ruta:", ruta)
+"""
 
 # =============================================================================
 # III. Simulación de Movimiento y Difusión mediante Caminata Aleatoria (Random Walk)

@@ -33,14 +33,15 @@ IMPORTANTE: mismas semillas
 
 --------practica 3:-----------
 
-Ya estan hechos:
+Ya estan hechos: (X es confirmado)
 I.A.1 X
 I.B.1 X
 I.B.2 X
 II.A X
 II.B X
-I.A.2 
-III.A.1
+I.A.2 X
+III.A.1 X
+
 -------------------
 pita:
 I.B.2 
